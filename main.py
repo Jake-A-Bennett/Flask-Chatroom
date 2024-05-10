@@ -1,6 +1,6 @@
 import mysql.connector
 from flask import Flask, render_template, request, url_for, session
-from flask_socketio import SocketIO, join_room, leave_room
+from flask_socketio import SocketIO, join_room, leave_room, emit
 from flask_session import Session
 from Database import Database
 
@@ -12,7 +12,7 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-
+room = None
 
 @app.route("/")
 def main():
@@ -73,7 +73,6 @@ def chat_room(room_name):
 
     for room in rooms_table:
         if room[1] == room_name:
-
             return render_template("chatroom.html", room=room_name)
         else:
             app.redirect("/homepage/")
@@ -102,5 +101,27 @@ def get_room():
     print(f"The room {room_name} was successfully created")
 
     return render_template("createroom.html")
+
+#the global room thing seems kind of buggy so I would look into that more
+@socketio.on("send")
+def handle_messages(message):
+    global room #I tried using session for this so then I wouldn't have to use a global but it was giving me a key error
+    emit("distribute message", message, to=room)
+
+@socketio.on("my event")
+def connect(new_room):
+    global room
+    room = new_room
+    print("I joined the room")
+    join_room(room)
+
+@socketio.on("disconnect")
+def disconnect():
+    global room
+    leave_room(room)
+    room = None
+
+
+
 
 socketio.run(app, allow_unsafe_werkzeug=True, debug=True)

@@ -3,17 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>chatroom</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
 </head>
 <body>
     <h1>{{room}}</h1>
+    <script>
+        socket = io()
+        socket.on('connect', function() {
+            socket.emit('my event', '{{room}}');
+    });
+    </script>
     <div class="chat_container">
         <div id="display_messages">
             <p>This is where messages will be displayed</p>
         </div>
         <div class="message_input_box">
-            <button id="send">Send</button>
+            <button id="send" type="submit">Send</button>
             <input id="message" placeholder="this is where a user will write a message">
         </div>
+        <script>
+            var socket = io();
+
+            document.getElementById("send").addEventListener("click", send_message)
+
+
+            function send_message() {
+                var message = "{{session["user"]}}: "+ document.getElementById("message").value
+                socket.emit('send', message)
+                document.getElementById("message").value = ""
+            }
+
+            socket.on("distribute message", (new_message) => {
+                const para = document.createElement("p");
+                para.innerText = new_message
+                document.getElementById("display_messages").appendChild(para);
+            })
+        </script>
     </div>
 </body>
 
