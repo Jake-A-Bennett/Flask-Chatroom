@@ -15,5 +15,16 @@ class Database():
         table = self.database_cursor.fetchall()
         return table
 
+    def get_table_sorted(self, table, row):
+        self.database_cursor.execute(f"SELECT * FROM {table} ORDER BY {row}")
+        table = self.database_cursor.fetchall()
+        return table
+
+    def delete_row(self, table, room):
+        self.database_cursor.execute(f"DELETE FROM {table} WHERE room = '{room}'")
+        self.database.commit()
+
+
+
 
 

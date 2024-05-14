@@ -13,14 +13,19 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 room = None
+admin = {"Jake"}
 
 @app.route("/")
 def main():
-    return "<p>Welcome to the main page</p>"
+    return render_template("mainpage.html")
 
 @app.route("/login/")
 def login():
-    return render_template("login.html")
+    try:
+        if session["user"]:
+            return app.redirect("/homepage/")
+    except:
+        return render_template("login.html")
 
 @app.post("/login/")
 def get_data():
@@ -64,7 +69,7 @@ def home_page():
     if not session.get("user"):
         return app.redirect("/login/")
     else:
-        room_table = database.get_table("rooms")
+        room_table = database.get_table_sorted("rooms", "room")
         return render_template("homepage.html", room_table=room_table)
 
 @app.route("/chatroom/<room_name>")
@@ -74,23 +79,28 @@ def chat_room(room_name):
     for room in rooms_table:
         if room[1] == room_name:
             return render_template("chatroom.html", room=room_name)
-        else:
-            app.redirect("/homepage/")
+
+    return app.redirect("/homepage/")
 
 @app.route("/homepage/createroom/")
 def create_room():
     return render_template("createroom.html")
 
-@app.post("/homepage/createroom/") #be careful because people could really just spam rooms and that could be a problem
+@app.post("/homepage/createroom/")
 def get_room():
+    global admin
     username = session["user"]
     room_name = request.form["room_name"]
-
     rooms_table = database.get_table("rooms")
 
+    allowed_active_rooms = 5
+
+    active_rooms = 0
     for room in rooms_table:
-        if room[1] == room_name:
-            print("There is already a room with this name") #this should also be sent to the user
+        if room[0] == username:
+            active_rooms += 1
+        if room[1] == room_name or (active_rooms > allowed_active_rooms and username not in admin):
+            print("There is already a room with this name or your over the limit of active rooms") #sent to user
             return app.redirect("/homepage/createroom/")
 
     sql = "INSERT INTO rooms (username, room) VALUES (%s, %s)"
@@ -102,7 +112,19 @@ def get_room():
 
     return render_template("createroom.html")
 
-#the global room thing seems kind of buggy so I would look into that more
+@app.route("/homepage/activerooms")
+def active_rooms():
+    user = session["user"]
+    rooms_table = database.get_table("rooms")
+    users_rooms = []
+
+    for rooms in rooms_table:
+        if rooms[0] == user:
+            users_rooms.append(rooms[1])
+
+    return render_template("activerooms.html", rooms=users_rooms)
+
+
 @socketio.on("send")
 def handle_messages(message):
     global room #I tried using session for this so then I wouldn't have to use a global but it was giving me a key error
@@ -111,9 +133,11 @@ def handle_messages(message):
 @socketio.on("my event")
 def connect(new_room):
     global room
+    username = session["user"]
     room = new_room
-    print("I joined the room")
+    message = f"{username} has joined the room"
     join_room(room)
+    emit("distribute message", message, to=room)
 
 @socketio.on("disconnect")
 def disconnect():
@@ -122,6 +146,11 @@ def disconnect():
     room = None
 
 
+@socketio.on("delete_room")
+def delete_room(room):
+    database.delete_row("rooms", room)
 
 
-socketio.run(app, allow_unsafe_werkzeug=True, debug=True)
+
+
+socketio.run(app, allow_unsafe_werkzeug=True, host="0.0.0.0", port=5000)
