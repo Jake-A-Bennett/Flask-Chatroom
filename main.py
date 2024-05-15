@@ -6,11 +6,12 @@ from Database import Database
 
 database = Database("localhost", "root", "Ilikesushi12!@", "chatroom")
 
-app = Flask(__name__) #might need a sercret key but tbh I don't know why
+app = Flask(__name__)
 socketio = SocketIO(app)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+
 
 room = None
 admin = {"Jake"}
@@ -19,16 +20,8 @@ admin = {"Jake"}
 def main():
     return render_template("mainpage.html")
 
-@app.route("/login/")
+@app.post("/")
 def login():
-    try:
-        if session["user"]:
-            return app.redirect("/homepage/")
-    except:
-        return render_template("login.html")
-
-@app.post("/login/")
-def get_data():
     users_table = database.get_table("users")
     username = request.form["username"]
     password = request.form["password"]
@@ -38,7 +31,7 @@ def get_data():
             session["user"] = username
             return app.redirect("/homepage/")
 
-    return app.redirect("/login/") #if I want to do this in real time I have to use sockets.io
+    return app.redirect("/")
 
 
 @app.route("/createaccount/")
@@ -100,7 +93,6 @@ def get_room():
         if room[0] == username:
             active_rooms += 1
         if room[1] == room_name or (active_rooms > allowed_active_rooms and username not in admin):
-            print("There is already a room with this name or your over the limit of active rooms") #sent to user
             return app.redirect("/homepage/createroom/")
 
     sql = "INSERT INTO rooms (username, room) VALUES (%s, %s)"
@@ -127,7 +119,7 @@ def active_rooms():
 
 @socketio.on("send")
 def handle_messages(message):
-    global room #I tried using session for this so then I wouldn't have to use a global but it was giving me a key error
+    global room
     emit("distribute message", message, to=room)
 
 @socketio.on("my event")

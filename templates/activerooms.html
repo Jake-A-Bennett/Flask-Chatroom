@@ -5,21 +5,37 @@
     <title>Activerooms</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='style.css')}}"
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>Active rooms</h1>
+    <nav>
+        <div>The Chatroom</div>
+        <a href="/homepage/">Homepage</a>
+        <a href="/homepage/createroom">Create a Room</a>
+        <a href="/homepage/activerooms">Active Rooms</a>
+    </nav>
 
-  <div id="active_container">
-      {% for room in range(rooms|length) %}
-        <div id="room{{room}}">{{rooms[room]}}</div>
-      {% endfor %}
-  </div>
+    <div id="act_del_container">
+        <div id="active_container">
+            {% for room in range(rooms|length) %}
+              <div class="room_display" id="room{{room}}">{{rooms[room]}}</div>
+            {% endfor %}
+        </div>
 
-  <div id="delete_container">
-      {% for room in range(rooms|length) %}
-        <button id="button{{room}}" onClick="delete_click(this.id)" type="submit">Delete</button>
-      {% endfor %}
-  </div>
+        <div id="delete_container">
+            {% for room in range(rooms|length) %}
+              <button id="button{{room}}" class="delete_buttons" onClick="delete_click(this.id)" type="submit">Delete</button>
+            {% endfor %}
+        </div>
+    </div>
+
   <script>
       function delete_click (clicked_id) {
         socket = io()

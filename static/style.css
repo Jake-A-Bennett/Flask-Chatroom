@@ -4,77 +4,154 @@
 
 body {
     margin: 0px;
+    background: #0F2027;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .room {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
     text-decoration: none;
-    color: black;
-    font-family: "Poppins", sans-serif;
-    font-weight: 300;
+    font-size: 20px;
+    background-color: black;
+    text-align: center;
+    font-family: "Lato", sans-serif;
+    font-weight: 500;
     font-style: normal;
 }
 
 .room_box {
-    float: left;
-    background-color: grey;
-    margin: 10px 10px;
-    height: 50px;
-    line-height: 50px;
-    width: 150px;
-    text-align: center;
+   display: grid;
+   grid-template-columns: 2fr 2fr 2fr 2fr;
+   grid-auto-rows: 100px;
+   gap: 20px;
+   padding: 30px;
 }
 
-.topnav {
-    margin-bottom: 30px;
-    width: 100%;
+
+nav {
+    display: flex;
+    justify-content: center;
+    padding: 30px;
 }
 
-.homepage_nav {
-    display: inline-block;
-    float: right;
-    text-decoration: none;
-    color: black;
-    background-color: grey;
-    padding: 10px;
-    margin-top: 20px;
-    margin-right: 10px;
-}
-
-.homepage_head {
+nav div {
     position: relative;
-    display: inline-block;
-    left: 40%;
-    padding: 10px;
-    font-family: "Bebas Neue", sans-serif;
-    font-weight: 400;
+    bottom: 6px;
+    flex: 2;
+    font-family: "Teko", sans-serif;
+    font-optical-sizing: auto;
     font-style: normal;
-    font-size: 50px;
-    color: black;
+    color: white;
+    font-size: 23px;
+    text-decoration: underline;
+}
+
+nav a {
+    margin-right: 10px;
+    text-decoration: none;
+    color: white;
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+#mainpage_container {
+    display: flex;
+    width: 100%;
+    height: 800px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 #login_container {
-    background-color: red;
-    text-align: center;
-    position: relative;
-    top: 300px;
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    width: 450px;
+    align-items: center;
+    flex-wrap: wrap;
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.01);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10.8px);
+    -webkit-backdrop-filter: blur(10.8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-#login_container a {
-    display: block;
-    margin: 20px;
-    text-decoration: none;
-    color: white;
-    font-size: 30px;
+#login_form a {
+    align-self: center;
+    text-decoration: underline;
+    color: black;
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
 
+#login_container h1 {
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+#login_container label {
+    margin-left: 20px;
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+#login_button {
+    width: 100px;
+    height: 50px;
+    align-self: center;
+    margin-top: 15px;
+    border: none;
+    background: #265263;
+    color: white;
+}
+
+::placeholder {
+    color: white;
+}
+
+.login_input {
+    width: 400px;
+    height: 50px;
+    margin: 10px;
+    border: solid black 1px;
+    padding: 10px;
+    font-family: "Lato", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    background-color: black;
+    border-radius: 10px;
+    color: white;
+}
+
+#login_form {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat_container {
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    width: 70%;
+    height: 100%;
+    background-color: black;
 }
 
 #display_messages {
-    margin: auto;
-    width: 80%;
+    display: block;
     height: 800px;
     overflow: auto;
-    border: solid 2px;
-    padding-left: 8px;
 }
 
 #display_messages p {
@@ -82,61 +159,196 @@ body {
     font-optical-sizing: auto;
     font-weight: 1000px;
     font-style: normal;
-    color: black;
-}
-
-#chat_heading {
-    text-align: center;
-    font-family: "Bebas Neue", sans-serif;
-    font-weight: 100;
-    font-style: normal;
-    font-size: 50px;
+    color: white;
+    padding-left: 20px;
 }
 
 .message_input_box {
-    width: 100%;
-    margin-top: 10px;
+    display: flex;
+    margin: 0px;
+    background-color: red;
+    flex-wrap: wrap;
 }
 
 #message {
-    position: relative;
-    margin: auto;
-    width: 50%;
-    left: 25%;
-    border: solid 1px;
-    border-radius: 20px;
-    padding: 8px;
+    background-color: grey;
+    border: none;
+    color: white;
+    flex: 1
 }
 
 #send {
-    position: relative;
-    left: 25%;
-    padding: 8px;
-    border: solid 1px;
-    border-radius: 10px;
-    background-color: lightblue;
+    height: 45px;
+    color: white;
+    background-color: black;
+    border: solid 3px white;
 }
 
-#active_container {
-    display: inline-block;
-    background-color: red;
+#act_del_container {
+    display: flex;
+    width: 100%;
+    height: 700px;
+    justify-content: center;
+    align-items: center;
 }
 
-#active_container div{
-
+#active_container div {
+    color: white;
+    margin: 10px;
+    background-color: black;
+    padding: 10px;
 }
 
 #delete_container {
-    background-color: blue;
-    display: inline-block;
+
 }
 
 #delete_container button {
     display: block;
     border: 0px;
     font-size: 14px;
+    margin: 10px;
+    padding: 11px;
 }
 
 #button_container button:hover {
     color: red;
+}
+
+
+#create_form_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 700px;
+    flex-direction: column;
+}
+
+#create_form {
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    width: 450px;
+    align-items: center;
+    flex-wrap: wrap;
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.01);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10.8px);
+    -webkit-backdrop-filter: blur(10.8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#create_form button {
+    width: 100px;
+    height: 50px;
+    align-self: center;
+    margin-top: 15px;
+    border: none;
+    background: #265263;
+    color: white;
+}
+
+#create_form input {
+    background-color: black;
+    border: none;
+    padding: 8px;
+    color: white;
+    width: 300px;
+    height: 40px;
+    margin: 20px;
+}
+
+#create_form h1 {
+    font-size: 50px;
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+#create_form a {
+    margin: 45px;
+    text-decoration: underline;
+    color: black;
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.delete_buttons {
+    width: 100px;
+    height: 50px;
+    margin-top: 15px;
+    border: none;
+    background: #265263;
+    color: white;
+}
+
+.room_display {
+    width: 100px;
+    height: 50px;
+    text-align: center;
+}
+
+#create_room_container {
+    display: flex;
+    width: 100%;
+    height: 800px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#create_room_form {
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    width: 450px;
+    align-items: center;
+    flex-wrap: wrap;
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.01);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10.8px);
+    -webkit-backdrop-filter: blur(10.8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#create_room_form input {
+    background-color: black;
+    border: none;
+    padding: 8px;
+    color: white;
+    width: 300px;
+    height: 40px;
+    margin: 20px;
+}
+
+#create_room_form button {
+    width: 100px;
+    height: 50px;
+    align-self: center;
+    margin-top: 15px;
+    border: none;
+    background: #265263;
+    color: white;
+}
+
+#create_room_form label {
+    position: relative;
+    margin-left: 20px;
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    align-self: flex-start;
+    left: 60px;
+}
+
+#create_room_form h1 {
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-style: normal;
 }

@@ -12,10 +12,15 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1 id="chat_heading">{{room}}</h1>
+    <nav>
+        <div>{{room}}</div>
+        <a href="/homepage/">Homepage</a>
+        <a href="/homepage/createroom">Create Room</a>
+        <a href="/homepage/activerooms">Active Rooms</a>
+    </nav>
     <script>
         socket = io()
         socket.on('connect', function() {
@@ -23,20 +28,27 @@
     });
     </script>
     <div class="chat_container">
-        <div id="display_messages">
-        </div>
+        <div id="display_messages"></div>
         <div class="message_input_box">
             <button id="send" type="submit">Send</button>
-            <input id="message" placeholder="this is where a user will write a message">
+            <input id="message" placeholder="Type Something">
         </div>
         <script>
             var socket = io();
 
             document.getElementById("send").addEventListener("click", send_message)
+            document.addEventListener("keydown", function (e) {
+                if (e.key == "Enter") {
+                    send_message()
+                }
+            })
 
 
             function send_message() {
                 var message = "{{session["user"]}}: "+ document.getElementById("message").value
+                if (message.length <= "{{session["user"]}}: ".length) {
+                    return None
+                }
                 socket.emit('send', message)
                 document.getElementById("message").value = ""
             }
@@ -45,6 +57,7 @@
                 const para = document.createElement("p");
                 para.innerText = new_message
                 document.getElementById("display_messages").appendChild(para);
+                document.getElementById("display_messages").scrollTo(0, document.getElementById("display_messages").scrollHeight);
             })
         </script>
     </div>

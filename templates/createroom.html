@@ -4,12 +4,29 @@
     <meta charset="UTF-8">
     <title>createroom</title>
     <link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='style.css')}}"
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>Create a room</h1>
-  <form action="{{url_for("create_room")}}" method="post">
-    <input placeholder="what room should be called" name="room_name" id="room_name">
-    <button type="submit">Create Room</button>
-  </form>
+  <nav>
+      <div>The Chatroom</div>
+      <a href="/homepage/">Homepage</a>
+      <a href="/homepage/createroom">Create a Room</a>
+      <a href="/homepage/activerooms">Active Rooms</a>
+  </nav>
+  <div id="create_form_container">
+    <form id="create_form" action="{{url_for("create_room")}}" method="post">
+      <h1>Create a Room!</h1>
+      <input placeholder="what room should be called" name="room_name" id="room_name">
+      <button type="submit">Create Room</button>
+      <a href="/homepage/activerooms">View Your New Room Here!</a>
+    </form>
+  </div>
 </body>
 </html>

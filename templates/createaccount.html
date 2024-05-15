@@ -3,12 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='style.css')}}"
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <form action="{{url_for("create_account")}}" method="post">
-        <input type="text" id="username" name="username" placeholder="Create a username">
-        <input type="password" id="password" name="password" placeholder="Create a password">
-        <button type="submit" id="submit">Create Account</button>
-    </form>
+    <nav>
+        <div>The Chatroom</div>
+        <a href="/createaccount/">Create Account</a>
+    </nav>
+    <div id="create_room_container">
+        <form id="create_room_form" action="{{url_for("create_account")}}" method="post">
+            <h1>Create Account</h1>
+            <label>Username</label>
+            <input type="text" id="username" name="username" placeholder="Create a username">
+            <label>Password</label>
+            <input type="password" id="password" name="password" placeholder="Create a password">
+            <button type="submit" id="submit">Create Account</button>
+        </form>
+    </div>
 </body>
 </html>
